@@ -1,6 +1,14 @@
 import sys
+import json
+import os
 
-list = []
+path = os.path.dirname(__file__)
+if os.path.exists(f"{path}/list.json"):
+    with open(f"{path}/list.json", "r") as f:
+        list = json.load(f)
+else:
+    list = []
+
 is_invalid = True
 instructions = """
 ------------------------------------------------------------
@@ -9,7 +17,7 @@ Choisissez parmi les 5 options suivantes :
 2: Retirer un élément de la liste
 3: Afficher la liste
 4: Vider la liste
-5: Quitter
+5: Sauvegarder & quitter
 """
 
 while is_invalid:
@@ -41,6 +49,8 @@ while is_invalid:
             list.clear()
             print('La liste a été vidée avec succès')
         elif user_choice == "5":
+            with open(f"{path}/list.json", "w") as f:
+                json.dump(list, f, indent=4, ensure_ascii=False)
             print('Au revoir !')
             sys.exit()
 
